@@ -11,11 +11,6 @@
                         (deriv (multiplicand exp) var))
           (make-product (deriv (multiplier exp) var)
                         (multiplicand exp)))]
-        ;[(exponentiation? exp) (make-product
-        ;                 (exponent exp)
-        ;                  (make-product
-        ;                   (make-exponentiation (base exp) (make-sum (exponent exp) -1))
-        ;                   (deriv (base exp) var)))]
         [else
          (error "unknown expression type" exp)]))
 
@@ -40,18 +35,6 @@
          (+ a1 a2)]
         [else (list a1 '+ a2)]))
 
-(define (make-sum a1 . a2)
-    (if (single-operand? a2)
-        (let ((a2 (car a2)))
-            (cond ((=number? a1 0)
-                    a2)
-                  ((=number? a2 0)
-                    a1)
-                  ((and (number? a1) (number? a2))
-                    (+ a1 a2))
-                  (else
-                    (list '+ a1 a2))))
-        (cons '+ (cons a1 a2))))
 
 ; cadr := (car (cdr x))
 ; addend= first element in sum
@@ -73,12 +56,10 @@
 (define (multiplier p) (car p))
 (define (multiplicand p) (caddr p))
 
-;(define (base e) (cadr e))
-;(define (exponent e) (caddr e))
 
 (define (=number? exp num) (and (number? exp) (= exp num)))
 
-(deriv '(x + 3 * x) 'x)
+(deriv '(x + x + x) 'x)
 
 ;(deriv '(x + (3 * (x + (y + 2)))) 'x)
 
