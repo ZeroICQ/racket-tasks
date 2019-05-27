@@ -40,6 +40,19 @@
          (+ a1 a2)]
         [else (list a1 '+ a2)]))
 
+(define (make-sum a1 . a2)
+    (if (single-operand? a2)
+        (let ((a2 (car a2)))
+            (cond ((=number? a1 0)
+                    a2)
+                  ((=number? a2 0)
+                    a1)
+                  ((and (number? a1) (number? a2))
+                    (+ a1 a2))
+                  (else
+                    (list '+ a1 a2))))
+        (cons '+ (cons a1 a2))))
+
 ; cadr := (car (cdr x))
 ; addend= first element in sum
 (define (addend s) (car s))
@@ -65,9 +78,9 @@
 
 (define (=number? exp num) (and (number? exp) (= exp num)))
 
-(deriv '(x + (3 * y)) 'x)
+(deriv '(x + 3 * x) 'x)
 
-(deriv '(x + (3 * (x + (y + 2)))) 'x)
+;(deriv '(x + (3 * (x + (y + 2)))) 'x)
 
 
 
