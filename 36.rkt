@@ -36,23 +36,26 @@
 (define (dot-product x y)
   (accumulate + 0 (accumulate-n * 1 (list x y))))
 
+(display "dot-produtct:\n")
 (define a (list 1 2 3 4 5))
 (define b (list 1 2 3 4 5))
+; 1 + 4 + 9 + 16 + 25 = 55
 (dot-product a b)
 
 ; (define (matrix-*-vector m v)
-; (map <??> m))
-
+; (map <??> m))r
+; матрица хранится по строкамы
 (define (matrix-*-vector m v)
-  (map (lambda (y) (dot-product y v)) m))
+  (map (lambda (row) (dot-product row v)) m))
 
-; 1 2 3    1   14
-; 4 5 6  * 2 = 32
-; 7 8 9    3   50
+; 1 2 3   1   14
+; 4 5 6 * 2 = 32
+; 7 8 9   3   50
 (matrix-*-vector '((1 2 3) (4 5 6) (7 8 9)) '(1 2 3))
 
 (define (transpose mat)
-  (accumulate-n (lambda (x y) (append (list x) y)) '() mat))
+  (accumulate-n cons '() mat))
+(display "transpose:\n")
 (transpose '((1 2 3) (4 5 6) (7 8 9)))
 
 ;(define (matrix-*-matrix m n)
@@ -60,6 +63,11 @@
 ;        (map <??> m)))
 
 (define (matrix-*-matrix m1 m2)
-  (map (lambda (x) (matrix-*-vector (transpose m1) x)) m2))
+  (map (lambda (x) 
+         (map (lambda (y) 
+                (dot-product x y))
+              (transpose m2)))
+       m1))
 (matrix-*-matrix '((1 2 3) (4 5 6) (7 8 9)) '((1 2 3) (4 5 6) (7 8 9)))
+(matrix-*-matrix '((1 1 1) (1 1 1) (1 1 1)) '((1 1 1) (1 1 1) (1 1 1)))
 
