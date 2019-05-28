@@ -10,7 +10,7 @@
 (define str1 '(foo bar baz))
 str1
 (count-pairs str1)
-е
+
 (define x '(foo)) 
 (define y (cons x x)) 
 (define str2 (list y))
