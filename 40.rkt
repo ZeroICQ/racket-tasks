@@ -12,7 +12,7 @@
           (make-product (deriv (multiplier exp) var)
                         (multiplicand exp)))]
         [else
-         (error "unknown expression type" exp)]))
+          (error "unknown expression type" exp)]))
 
 (define (variable? x) (symbol? x))
 
@@ -26,7 +26,13 @@
 (define (find-op op seq)
   (accumulate (lambda (a b) (or b (eq? a op))) false seq))
 
-(define (flatten x) (if (and (pair? x) (null? (cdr x))) (accumulate append '() x) x))
+(define (inc a b) (+ b 1))
+
+(define (length l)
+  (accumulate inc 0 l))
+
+(define (flatten x) (if (and (pair? x) (null? (cdr x)) (= (length x) 1)) (car x)
+                        (accumulate (lambda (a b) (if (pair? a) (append a b) (append (list a) b))) '() x)))
 
 (define (same-variable? v1 v2)
   (and (variable? v1) (variable? v2) (eq? v1 v2)))
@@ -69,23 +75,27 @@
 
 (define (product? x) (and (pair? x) (find-op '* x) (not (find-op '+ x))))
 
-(define (multiplier p) (car p))
-(define (multiplicand p) (caddr p))
+(define (multiplier p) (flatten (get-pre '* p)))
+(define (multiplicand p) (flatten (get-post '* p)))
 
 (define (=number? exp num) (and (number? exp) (= exp num)))
 
 ;(deriv '(x + x + (x* 6)) 'x)
-(define a '(x + x + (x * 6)))
-(sum? a);t
-(product? a);f
-(define b '(x * x * (x + 6)))
-(sum? b);f
-(product? b);t
+;(define a '(x + x + (x * 6)))
+;(sum? a);t
+;(product? a);f
+;(define b '(x * x * (x + 6)))
+;(sum? b);f
+;(product? b);t
 
-(define c '(x * (x + b) * x + (x + 6)))
-(get-pre '+ c)
-(get-post '+ c)
-(addend c)
-(augend c)
+;(define c '(x * (x + b) * x + (x + 6)))
+;(get-pre '+ c)
+;(get-post '+ c)
+;(addend c)
+;(augend c)
 
-;(deriv '(x + (3 * (x + (y + 2)))) 'x)
+(define d '(x + 3 * x * (x + y) + z))
+(deriv d 'x)
+(deriv d 'y)
+(deriv d 'z)
+
