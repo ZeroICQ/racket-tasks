@@ -31,8 +31,11 @@
 (define (length l)
   (accumulate inc 0 l))
 
-(define (flatten x) (if (and (pair? x) (null? (cdr x)) (= (length x) 1)) (car x)
-                        (accumulate (lambda (a b) (if (pair? a) (append a b) (append (list a) b))) '() x)))
+;(define (flatten x) (if (and (pair? x) (null? (cdr x)) (= (length x) 1)) (car x)
+;                        (accumulate (lambda (a b) (if (pair? a) (append a b) (append (list a) b))) '() x)))
+
+
+(define (flatten x) (if (and (pair? x) (null? (cdr x))) (car x) x))
 
 (define (same-variable? v1 v2)
   (and (variable? v1) (variable? v2) (eq? v1 v2)))
@@ -94,8 +97,10 @@
 ;(addend c)
 ;(augend c)
 
-(define d '(x + 3 * x * (x + y) + z))
+;(define d '(x + 3 * x * (x + y) + z))
+
 (deriv d 'x)
 (deriv d 'y)
 (deriv d 'z)
 
+(deriv 'y 'x)
