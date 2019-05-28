@@ -10,7 +10,7 @@
     [(> (+ k j i) s) false]
     [(>= k j) false]
     [(>= j i) false]
-    [(>  i n) false]
+    [(> i n) false]
     [else true]))
 
 
@@ -45,6 +45,7 @@
 
 (define (build n s) (iter-i null n s  1 2 3))
 
+(build 5 8)
 (build 7 10)
 
 
