@@ -1,11 +1,16 @@
 #lang racket
 
 (define (count-pairs x)
-  (if (not (pair? x))
-      0
-      (+ (count-pairs (car x))
-         (count-pairs (cdr x))
-         1)))
+  (let ((visited '()))
+    (define (count x)
+      (cond [(not (pair? x)) 0]
+            [(memq x visited) 0]
+            [else
+             (set! visited (cons x visited))
+             (+ (count (car x))
+                (count (cdr x))
+                1)]))
+    (count x)))
 
 (define str1 '(foo bar baz))
 str1
