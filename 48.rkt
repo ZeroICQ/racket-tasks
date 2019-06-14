@@ -21,15 +21,16 @@
   
   (let ((front-ptr '())
         (rear-ptr  '()))
+    
     (define (empty-deque?)
       (null? front-ptr))
     (define (front-deque)
       (if (empty-deque?)
-          (error "FRONT-DEQUE called with an empty deque")
+          (error "front-deque called with an empty deque")
           (node-value front-ptr)))
     (define (rear-deque)
       (if (empty-deque?)
-          (error "FRONT-DEQUE called with an empty deque")
+          (error "rear-deque called with an empty deque")
           (node-value rear-ptr)))
     
     (define (front-insert-deque! value)

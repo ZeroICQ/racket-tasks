@@ -68,6 +68,7 @@
                 (dot-product x y))
               (transpose m2)))
        m1))
+(display "\n")
 (matrix-*-matrix '((1 2 3) (4 5 6) (7 8 9)) '((1 2 3) (4 5 6) (7 8 9)))
 (matrix-*-matrix '((1 1 1) (1 1 1) (1 1 1)) '((1 1 1) (1 1 1) (1 1 1)))
 

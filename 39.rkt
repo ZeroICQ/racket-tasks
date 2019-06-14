@@ -1,6 +1,5 @@
 #lang racket
 
-
 (define (deriv exp var)
   (cond [(number? exp) 0]
         [(variable? exp) (if (same-variable? exp var) 1 0)]
@@ -77,6 +76,11 @@
 (deriv '(+ x (* 4 x)) 'x)
 (deriv '(** x 8) 'x)
 (deriv '(** x 7) 'x)
+
+(make-exponentiation 'x 0)
+(make-exponentiation 1 'f)
+(make-exponentiation 2 3)
+;(deriv '(** 2 3) 'x)
 
 (define test-exponent (make-exponentiation 'a 3))
 (define (test-sum) (make-sum 'a 'b))
